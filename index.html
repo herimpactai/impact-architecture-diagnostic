@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find Your Primary Constraint | Her Impact AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#fff;padding:2.5rem 2rem 3rem;max-width:680px;margin:0 auto}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#c3748a;margin-bottom:.75rem}
+.headline{font-size:26px;font-weight:700;color:#2d2554;line-height:1.2;margin-bottom:.5rem}
+.sub{font-size:14px;color:#6b6880;line-height:1.65;margin-bottom:2rem}
+.progress-track{height:3px;background:#f0eef5;border-radius:2px;margin-bottom:2.5rem}
+.progress-fill{height:3px;background:#c3748a;border-radius:2px;transition:width .3s ease}
+.q-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#c3748a;margin-bottom:.5rem}
+.q-text{font-size:17px;font-weight:700;color:#2d2554;line-height:1.35;margin-bottom:1.5rem}
+.option{border:.5px solid #e0dde8;border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem;cursor:pointer;transition:border-color .15s,background .15s;font-size:14px;color:#4a4660;line-height:1.5;text-align:left;width:100%;background:#fff;font-family:'Plus Jakarta Sans',sans-serif}
+.option:hover{border-color:#c3748a;background:#fdf7f8}
+.option.selected{border-color:#2d2554;background:#f6f4fb;color:#2d2554;font-weight:600}
+.nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.btn{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:600;padding:.6rem 1.25rem;border-radius:8px;cursor:pointer;transition:opacity .15s}
+.btn-back{background:#fff;border:.5px solid #e0dde8;color:#6b6880}
+.btn-next{background:#2d2554;border:none;color:#fff}
+.btn:disabled{opacity:.35;cursor:default}
+.q-count{font-size:13px;color:#9e9aab}
+.gate-wrap{text-align:center;padding:1rem 0}
+.gate-title{font-size:22px;font-weight:700;color:#2d2554;margin-bottom:.75rem}
+.gate-sub{font-size:14px;color:#6b6880;line-height:1.65;margin-bottom:2rem;max-width:420px;margin-left:auto;margin-right:auto}
+.field{width:100%;border:.5px solid #e0dde8;border-radius:8px;padding:.75rem 1rem;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif;color:#2d2554;margin-bottom:1rem;outline:none}
+.field:focus{border-color:#2d2554}
+.field.error{border-color:#c3748a}
+.btn-full{width:100%;padding:.85rem;font-size:15px;font-weight:700;background:#2d2554;color:#fff;border:none;border-radius:10px;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;margin-top:.5rem}
+.btn-full:disabled{opacity:.5;cursor:default}
+.fine{font-size:11px;color:#9e9aab;margin-top:.75rem;text-align:center}
+.error-msg{font-size:12px;color:#c3748a;margin-top:.5rem;text-align:center}
+.result-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#c3748a;margin-bottom:.5rem}
+.result-title{font-size:24px;font-weight:700;color:#2d2554;margin-bottom:.4rem}
+.result-sub{font-size:14px;color:#6b6880;line-height:1.65;margin-bottom:2rem}
+.primary-card{background:#2d2554;border-radius:12px;padding:1.5rem;margin-bottom:1rem}
+.primary-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#c3748a;margin-bottom:.4rem}
+.primary-name{font-size:20px;font-weight:700;color:#fff;margin-bottom:.5rem}
+.primary-desc{font-size:13px;color:#c9c8ce;line-height:1.6}
+.secondary-card{border:.5px solid #e0dde8;border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+.secondary-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#9e9aab;margin-bottom:.3rem}
+.secondary-name{font-size:16px;font-weight:700;color:#2d2554;margin-bottom:.4rem}
+.secondary-desc{font-size:13px;color:#6b6880;line-height:1.6}
+.score-row{display:flex;align-items:center;gap:12px;margin-bottom:.75rem}
+.score-label{font-size:13px;color:#4a4660;width:90px;flex-shrink:0}
+.score-bar-track{flex:1;height:4px;background:#f0eef5;border-radius:2px}
+.score-bar-fill{height:4px;border-radius:2px;background:#c9c8ce;transition:width .6s ease}
+.score-bar-fill.primary{background:#2d2554}
+.score-bar-fill.secondary{background:#c3748a}
+.divider{border:none;border-top:.5px solid #e0dde8;margin:1.5rem 0}
+.footer-logo{display:flex;align-items:center;gap:.5rem;margin-top:2rem}
+.logo-badge{width:28px;height:28px;border-radius:50%;background:#2d2554;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#fff}
+.logo-dot{color:#c3748a}
+.logo-name{font-size:12px;font-weight:600;color:#2d2554}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+var WP_URL = 'https://herimpactai.com';
+var WP_USER = 'kristenleesantos';
+var WP_APP_PASS = 'WbZj 3AEu P1yi fD8X XrWV iQUn';
+var MAILPOET_LIST_ID = 4;
+
+var questions=[
+{dim:'access',text:'In the last 90 days, when a high-visibility project or strategic conversation started at your organization, what typically happened?',options:[{text:'I was brought in from the start as a key voice',score:0},{text:'I found out about it after the core group was already formed',score:3},{text:'I was included but felt like an afterthought rather than a core contributor',score:2},{text:'I heard about it through the grapevine, not directly',score:3}]},
+{dim:'access',text:'When you think about the rooms where real decisions get made in your field, how would you describe your relationship to them?',options:[{text:'I am in them regularly and my presence is expected',score:0},{text:'I am invited occasionally but not consistently',score:2},{text:'I know the rooms exist but I am not getting the invitation',score:3},{text:'I am not sure which rooms matter or how to get access',score:3}]},
+{dim:'authority',text:'When you share a perspective or recommendation in a meeting, what most often happens?',options:[{text:'It shapes the direction of the conversation',score:0},{text:'It gets acknowledged but does not visibly move anything',score:2},{text:'It gets restated by someone else and then gets traction',score:3},{text:'It gets questioned in ways that feel disproportionate to the idea',score:3}]},
+{dim:'authority',text:'How would you describe the way your expertise is received in high-stakes professional settings?',options:[{text:'People defer to my read without me having to establish it first',score:0},{text:'I have to work harder than my peers to establish the same level of credibility',score:3},{text:'My contributions land differently depending on who is in the room',score:2},{text:'I often feel like I am proving myself before I can actually lead',score:3}]},
+{dim:'reputation',text:'How well does your current professional reputation reflect where you actually are in your expertise and career?',options:[{text:'It is accurate, how I am known matches who I have become',score:0},{text:'There is a gap, I have grown significantly but I am still being treated as an older version of myself',score:3},{text:'My reputation is strong in my immediate circle but does not reflect my broader impact',score:2},{text:'I am not sure how I am perceived externally and that uncertainty is costing me',score:2}]},
+{dim:'reputation',text:'When opportunities come your way, how well do they match your actual level?',options:[{text:'They match where I am and sometimes stretch me appropriately',score:0},{text:'They are consistently below what I am capable of',score:3},{text:'The right opportunities are going to people who are louder, not more qualified',score:2},{text:'I am waiting for opportunities that never seem to arrive',score:3}]},
+{dim:'reach',text:'When you do strong work, how far does it travel?',options:[{text:'Beyond my immediate team, it reaches people and rooms I am not in',score:0},{text:'It is recognized by the people immediately around me but does not go further',score:2},{text:'It gets absorbed into the organization without clear attribution to me',score:3},{text:'I am not sure anyone outside my direct circle knows what I am producing',score:3}]},
+{dim:'reach',text:'How would you describe your professional visibility beyond your current role or organization?',options:[{text:'I have a presence that draws inbound interest and opportunities',score:0},{text:'I am known within my organization but largely invisible externally',score:2},{text:'I share my thinking occasionally but it does not seem to compound into anything',score:2},{text:'I have not prioritized external visibility and I am starting to feel the cost of that',score:3}]}
+];
+
+var dimMeta={
+access:{name:'Access Gap',primary:'Your primary constraint is getting into the rooms where decisions are made. Technical fluency alone does not open doors. You need deliberate positioning that makes your inclusion feel obvious to the people who control access.',secondary:'Access is also a friction point for you. Even as you build authority and reputation, make sure you are actively working the rooms that matter rather than waiting for invitations that may not come.'},
+authority:{name:'Authority Gap',primary:'You are in the rooms, but your expertise is not landing with the weight it deserves. This is not about competence. It is about how you are showing up strategically. The move is shifting from demonstrating knowledge to shaping the conversation.',secondary:'Authority is also a friction point. Once you are in the room, make sure your contributions are framed to lead rather than inform. How you say it matters as much as what you say.'},
+reputation:{name:'Reputation Lag',primary:'Your expertise has outpaced how you are known. You are operating at a level your reputation has not caught up to yet, which means you are leaving opportunities on the table and constantly re-proving what should already be assumed.',secondary:'Reputation lag is also showing up for you. It is worth actively closing the gap between who you have become and how you are perceived. That gap is costing you in ways that will not fix themselves.'},
+reach:{name:'Reach Gap',primary:'Your work is strong but it is not traveling. You are optimizing for output when the environment rewards signal. The goal is not more visibility. It is making sure the right work reaches the right people in a form they can act on.',secondary:'Reach is also a constraint. Your influence is not compounding beyond your immediate circle, which means your impact is smaller than your actual contribution.'}
+};
+
+var current=0,answers={},email='',userName='',phase='quiz';
+
+function getScores(){var s={access:0,authority:0,reputation:0,reach:0};questions.forEach(function(q,i){if(answers[i]!==undefined)s[q.dim]+=q.options[answers[i]].score;});return s;}
+function getRanked(){var s=getScores();return Object.entries(s).sort(function(a,b){return b[1]-a[1];});}
+
+function render(){var app=document.getElementById('app');if(phase==='quiz')renderQuiz(app);else if(phase==='gate')renderGate(app);else renderResult(app);}
+
+function renderQuiz(app){
+  var q=questions[current];
+  var pct=Math.round((current/questions.length)*100);
+  var html='<p class="eyebrow">Her Impact AI</p>';
+  html+='<h1 class="headline">The Impact Architecture Diagnostic</h1>';
+  html+='<p class="sub">Eight questions to identify your primary constraint. No right answers, just honest ones.</p>';
+  html+='<div class="progress-track"><div class="progress-fill" style="width:'+pct+'%"></div></div>';
+  html+='<p class="q-label">Question '+(current+1)+' of '+questions.length+'</p>';
+  html+='<p class="q-text">'+q.text+'</p>';
+  q.options.forEach(function(o,i){html+='<button class="option'+(answers[current]===i?' selected':'')+'" onclick="selectOpt('+i+')">'+o.text+'</button>';});
+  html+='<div class="nav">';
+  html+='<button class="btn btn-back" onclick="goBack()"'+(current===0?' disabled':'')+'>Back</button>';
+  html+='<span class="q-count">'+Object.keys(answers).length+' of '+questions.length+' answered</span>';
+  html+='<button class="btn btn-next" onclick="goNext()"'+(answers[current]===undefined?' disabled':'')+'>'+( current===questions.length-1?'See results':'Next')+'</button>';
+  html+='</div>';
+  app.innerHTML=html;
+}
+
+function renderGate(app){
+  var html='<div class="gate-wrap">';
+  html+='<p class="eyebrow" style="display:inline-block">Almost there</p>';
+  html+='<p class="gate-title">Your results are ready</p>';
+  html+='<p class="gate-sub">Enter your details to see your primary constraint and what to do about it. You will also receive your results and the full Impact Architecture framework in your inbox.</p>';
+  html+='</div>';
+  html+='<input class="field" type="text" id="g-name" placeholder="First name">';
+  html+='<input class="field" type="email" id="g-email" placeholder="Work email">';
+  html+='<button class="btn-full" id="g-submit" onclick="submitGate()">Show my results</button>';
+  html+='<p class="fine" id="g-fine">No spam. Unsubscribe any time.</p>';
+  html+='<p class="error-msg" id="g-error" style="display:none"></p>';
+  app.innerHTML=html;
+}
+
+function renderResult(app){
+  var ranked=getRanked();
+  var scores=getScores();
+  var maxScore=6;
+  var primary=ranked[0][0];
+  var secondary=ranked[1][0];
+  var dims=['access','authority','reputation','reach'];
+  var html='<p class="result-eyebrow">Your Impact Architecture results</p>';
+  html+='<h1 class="result-title">Hi '+(userName||'there')+', here is where to focus.</h1>';
+  html+='<p class="result-sub">Based on your answers, here are the two dimensions creating the most friction in your path to Full Impact.</p>';
+  html+='<div class="primary-card"><p class="primary-label">Primary constraint</p><p class="primary-name">'+dimMeta[primary].name+'</p><p class="primary-desc">'+dimMeta[primary].primary+'</p></div>';
+  html+='<div class="secondary-card"><p class="secondary-label">Secondary constraint</p><p class="secondary-name">'+dimMeta[secondary].name+'</p><p class="secondary-desc">'+dimMeta[secondary].secondary+'</p></div>';
+  html+='<hr class="divider">';
+  html+='<p class="q-label" style="margin-bottom:1rem">Your full profile</p>';
+  dims.forEach(function(d){
+    var s=scores[d];
+    var pct=Math.round((s/maxScore)*100);
+    var cls=d===primary?'primary':d===secondary?'secondary':'';
+    var label=dimMeta[d].name.replace(' Gap','').replace(' Lag','');
+    html+='<div class="score-row"><span class="score-label">'+label+'</span><div class="score-bar-track"><div class="score-bar-fill '+cls+'" style="width:'+pct+'%"></div></div></div>';
+  });
+  html+='<hr class="divider">';
+  html+='<p style="font-size:13px;color:#6b6880;line-height:1.65">Check your inbox for your results and the full Impact Architecture framework. In the meantime, explore the framework at <a href="https://herimpactai.com/impact-architecture" style="color:#2d2554;font-weight:600">herimpactai.com/impact-architecture</a>.</p>';
+  html+='<div class="footer-logo"><div class="logo-badge">hi<span class="logo-dot">.</span></div><span class="logo-name">Her Impact AI</span></div>';
+  app.innerHTML=html;
+}
+
+function selectOpt(i){answers[current]=i;render();}
+function goNext(){if(answers[current]===undefined)return;if(current<questions.length-1){current++;render();}else{phase='gate';render();}}
+function goBack(){if(phase==='gate'){phase='quiz';render();return;}if(current>0){current--;render();}}
+
+function submitGate(){
+  var eField=document.getElementById('g-email');
+  var fField=document.getElementById('g-name');
+  var btn=document.getElementById('g-submit');
+  var errEl=document.getElementById('g-error');
+  if(!eField||!eField.value.includes('@')){
+    if(eField){eField.className='field error';}
+    return;
+  }
+  email=eField.value.trim();
+  userName=fField?fField.value.trim():'';
+  btn.disabled=true;
+  btn.textContent='Saving your results...';
+  errEl.style.display='none';
+
+  var ranked=getRanked();
+  var primary=ranked[0][0];
+  var primaryName=dimMeta[primary].name;
+
+  var credentials=btoa(WP_USER+':'+WP_APP_PASS);
+  var payload={
+    email:email,
+    first_name:userName,
+    last_name:'',
+    list_ids:[MAILPOET_LIST_ID],
+    extra_custom_fields:{primary_constraint:primaryName}
+  };
+
+  fetch(WP_URL+'/wp-json/mailpoet/v1/subscribers',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Basic '+credentials
+    },
+    body:JSON.stringify(payload)
+  })
+  .then(function(res){
+    if(!res.ok){throw new Error('API error '+res.status);}
+    return res.json();
+  })
+  .then(function(){
+    phase='result';
+    render();
+  })
+  .catch(function(err){
+    console.error('MailPoet error:',err);
+    phase='result';
+    render();
+  });
+}
+
+render();
+</script>
+</body>
+</html>
